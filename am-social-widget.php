@@ -60,6 +60,49 @@ class AM_Social_Widget extends WP_Widget {
 		// load widget
 		parent::__construct(self::slug, __(self::name, self::locale), $widget_ops, $control_ops );
 	}
+
+	/**
+	 * Outputs the content of the widget on frontend
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param array $args array of standard parameters for widget area in active theme.
+	 * @param array $instance array of settings for this widget.
+	 */
+	public function widget( $args, $instance ) {
+		// before widget markup from widget area args.
+		echo $args['before_widget'];
+
+		// title of widget wrapped in before/after title from widget area args.
+		echo $args['before_title'] . 'Widget Title' . $args['after_title'];
+
+		// after widget markup from widget area args.
+		echo $args['after_widget'];
+	}
+
+	/**
+	 * Saving & Updating of widget admin settigns are handled here.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param array $new_instance array of new settings submitted by admin
+	 * @param array $old_instance array of the old settings.
+	 * @return array Updated settings to save.
+	 */
+	public function update( $new_instance, $old_instance ) {
+		return $new_instance;
+	}
+
+	/**
+	 * Outputs the settings form of the widget on admin area.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param array $instance array of current settings for this widget
+	 */
+	public function form( $instance ) {
+		echo '<p>Widget Form...</p>';
+	}
 }
 
 /**
