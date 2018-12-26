@@ -70,18 +70,50 @@ class AM_Social_Widget extends WP_Widget {
 	 * @param array $instance array of settings for this widget.
 	 */
 	public function widget( $args, $instance ) {
+	    // set widget id
+		if ( ! isset( $args['widget_id'] ) ) {
+			$args['widget_id'] = $this->id;
+		}
+        // widget title
+		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Social Profiles', self::locale );
+		// apply filter widget_title.
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+		// link target
+		$link_target = isset( $instance['link_target'] ) ? $instance['link_target'] : false;
+
 		// before widget markup from widget area args.
 		echo $args['before_widget'];
 
 		// title of widget wrapped in before/after title from widget area args.
-		echo $args['before_title'] . 'Widget Title' . $args['after_title'];
+        if ( $title !== '' ) {
+	        echo $args['before_title'] . $title . $args['after_title'];
+        }
+
+		echo '<p class="am-social-profiles-wrap">';
+		$social_profiles = array(
+			'facebook' => 'Facebook',
+			'twitter' => 'Twitter',
+			'linkedin' => 'LinkedIn',
+			'pinterest' => 'Pinterest',
+			'gplus' => 'Google Plus',
+			'youtube' => 'Youtube',
+			'rss' => 'RSS',
+		);
+		foreach( $social_profiles as $social => $title ) {
+			$url = esc_url( $instance[$social] );
+			$target = $link_target ? 'target="_blank"' : '';
+			if( $url ) {
+				echo '<a href="' . $url . '" ' . $target . '>' . $title . '</a> ';
+			}
+		}
+		echo '</p>';
 
 		// after widget markup from widget area args.
 		echo $args['after_widget'];
 	}
 
 	/**
-	 * Saving & Updating of widget admin settigns are handled here.
+	 * Saving & Updating of widget admin settings are handled here.
 	 *
 	 * @since 1.0.1
 	 *
@@ -95,12 +127,12 @@ class AM_Social_Widget extends WP_Widget {
 		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 		// social profiles
 		$social_profiles = array(
-			'facebook' => 'Facebook URL:',
-			'twitter' => 'Twitter URL:',
-			'linkedin' => 'LinkedIn URL:',
-			'pinterest' => 'Pinterest URL:',
-			'gplus' => 'Google Plus URL:',
-			'youtube' => 'Youtube URL:',
+			'facebook' => 'Facebook URL',
+			'twitter' => 'Twitter URL',
+			'linkedin' => 'LinkedIn URL',
+			'pinterest' => 'Pinterest URL',
+			'gplus' => 'Google Plus URL',
+			'youtube' => 'Youtube URL',
 			'rss' => 'RSS URL',
 		);
 		foreach( $social_profiles as $social => $title ) {
@@ -130,7 +162,7 @@ class AM_Social_Widget extends WP_Widget {
 			'pinterest' => 'Pinterest URL:',
 			'gplus' => 'Google Plus URL:',
 			'youtube' => 'Youtube URL:',
-			'rss' => 'RSS URL',
+			'rss' => 'RSS URL:',
 		);
 		$link_target = isset( $instance['link_target'] ) ? (bool) $instance['link_target'] : false;
 		?>
