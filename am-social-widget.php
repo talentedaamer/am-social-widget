@@ -47,6 +47,9 @@ class AM_Social_Widget extends WP_Widget {
 		// load plugin text-domain
 		load_plugin_textdomain(self::locale, false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
+		// load styles
+		add_action( 'wp_enqueue_scripts', array( $this, 'am_enqueue_scripts' ) );
+
 		// widget options
 		$widget_ops = array(
 			'classname'   => self::slug,
@@ -103,7 +106,7 @@ class AM_Social_Widget extends WP_Widget {
 			$url = esc_url( $instance[$social] );
 			$target = $link_target ? 'target="_blank"' : '';
 			if( $url ) {
-				echo '<a href="' . $url . '" ' . $target . '>' . $title . '</a> ';
+				echo '<a href="' . $url . '" ' . $target . '>' . $this->am_get_icon_svg($social) . '<span class="sr-only screen-reader-text">' . $title . '</span></a> ';
 			}
 		}
 		echo '</p>';
@@ -205,6 +208,27 @@ class AM_Social_Widget extends WP_Widget {
 		</div>
 		<?php
 	}
+
+	/**
+	 * Gets the SVG code for a given social icon.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param $icon name of the icon
+	 * @param int $size icon size default is 24px
+	 *
+	 * @return null|string icon or null if wrong name is passed
+	 */
+	public function am_get_icon_svg( $icon, $size = 24 ) {
+		return AM_SVG_Icons::get_svg( $icon, $size );
+	}
+
+	/**
+	 * Load plugin styles for frontend.
+	 */
+	public function am_enqueue_scripts() {
+	    wp_enqueue_style( 'am-social-widget-styles', plugin_dir_url( __FILE__ ) . 'assets/css/style.min.css' );
+    }
 }
 
 /**
@@ -215,3 +239,8 @@ class AM_Social_Widget extends WP_Widget {
 add_action( 'widgets_init', function () {
 	register_widget('AM_Social_Widget' );
 } );
+
+/**
+ * Loads svg icons class
+ */
+include_once( 'inc/class-svg-icons.php' );
