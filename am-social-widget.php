@@ -90,7 +90,26 @@ class AM_Social_Widget extends WP_Widget {
 	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
-		return $new_instance;
+		$instance = $old_instance;
+		// widget title
+		$instance['title'] = sanitize_text_field( $new_instance['title'] );
+		// social profiles
+		$social_profiles = array(
+			'facebook' => 'Facebook URL:',
+			'twitter' => 'Twitter URL:',
+			'linkedin' => 'LinkedIn URL:',
+			'pinterest' => 'Pinterest URL:',
+			'gplus' => 'Google Plus URL:',
+			'youtube' => 'Youtube URL:',
+			'rss' => 'RSS URL',
+		);
+		foreach( $social_profiles as $social => $title ) {
+			$instance[$social] = sanitize_text_field( $new_instance[$social] );
+		}
+		// link target
+		$instance['link_target'] = isset( $new_instance['link_target'] ) ? (bool) $new_instance['link_target'] : false;
+
+		return $instance;
 	}
 
 	/**
@@ -101,7 +120,58 @@ class AM_Social_Widget extends WP_Widget {
 	 * @param array $instance array of current settings for this widget
 	 */
 	public function form( $instance ) {
-		echo '<p>Widget Form...</p>';
+		// widget title
+		$title = isset( $instance['title'] ) ? $instance['title'] : '';
+		// social profiles for creating inputs.
+		$social_profiles = array(
+			'facebook' => 'Facebook URL:',
+			'twitter' => 'Twitter URL:',
+			'linkedin' => 'LinkedIn URL:',
+			'pinterest' => 'Pinterest URL:',
+			'gplus' => 'Google Plus URL:',
+			'youtube' => 'Youtube URL:',
+			'rss' => 'RSS URL',
+		);
+		$link_target = isset( $instance['link_target'] ) ? (bool) $instance['link_target'] : false;
+		?>
+		<div class="am-social-widget-form-controls">
+			<!-- widget title -->
+			<p>
+				<label for="<?php echo $this->get_field_id( 'title' ); ?>">
+					<?php _e( 'Widget Title:' ) ?>
+				</label>
+				<input
+					type="text"
+					class="widefat"
+					id="<?php echo $this->get_field_id( 'title' ); ?>"
+					name="<?php echo $this->get_field_name( 'title' ); ?>"
+					value="<?php echo esc_attr( $title ); ?>"/>
+			</p>
+			<!-- social profiles inputs -->
+			<?php
+				foreach( $social_profiles as $social => $title ) {
+					echo '<p>';
+					$social_val = isset( $instance[$social] ) ? $instance[$social] : '';
+					$html = '<label for="' . $this->get_field_id( $social ) . '">' . $title . '</label>';
+					$html .= '<input type="text" class="widefat" id="' . $this->get_field_id( $social ) . '" name="' . $this->get_field_name( $social ) . '" value="' . esc_attr( $social_val ) . '"/>';
+					echo $html;
+					echo '</p>';
+				} // end foreach $social_profiles
+			?>
+			<!-- open likn in new tab -->
+			<p>
+				<input
+					type="checkbox"
+					class="checkbox"
+					id="<?php echo $this->get_field_id( 'link_target' ); ?>"
+					name="<?php echo $this->get_field_name( 'link_target' ); ?>"
+					<?php checked( $link_target ); ?>/>
+				<label for="<?php echo $this->get_field_id( 'link_target' ); ?>">
+					<?php _e( 'Open link in new tab?' ); ?>
+				</label>
+			</p>
+		</div>
+		<?php
 	}
 }
 
