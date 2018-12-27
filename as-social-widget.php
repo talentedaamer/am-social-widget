@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: AM Social Widget
- * Plugin URI: https://github.com/talentedaamer/am-social-widget
+ * Plugin Name: AS Social Widget
+ * Plugin URI: https://github.com/talentedaamer/as-social-widget
  * Description: WordPress plugin that allows user to link to their social profiles like facebook, twitter, linkedIn, youtube etc
  * Version: 1.0.1
  * Author: Aamer Shahzad
@@ -15,7 +15,7 @@
  * This plugin, like WordPress, is licensed under the GPL. You can redistribute it and/or modify
  * it to make something cool, have fun, and share what you've learned with others.
  *
- * @package    AMSocialWidget
+ * @package    ASSocialWidget
  * @since      1.0.1
  * @copyright  Copyright (c) 2019, Aamer Shahzad
  * @license    GPL-2.0.
@@ -25,16 +25,16 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * AM Social Widget Class
+ * AS Social Widget Class
  *
  * @since 1.0.1
  */
-class AM_Social_Widget extends WP_Widget {
+class AS_Social_Widget extends WP_Widget {
 
 	/**
 	 * plugin constants
 	 */
-	const name = 'AM Social Widget';
+	const name = 'AS Social Widget';
 	const locale = 'am-social-widget';
 	const slug = 'am-social-widget';
 
@@ -48,7 +48,7 @@ class AM_Social_Widget extends WP_Widget {
 		load_plugin_textdomain(self::locale, false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
 		// load styles
-		add_action( 'wp_enqueue_scripts', array( $this, 'am_enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// widget options
 		$widget_ops = array(
@@ -58,7 +58,7 @@ class AM_Social_Widget extends WP_Widget {
 		);
 		// widget controls
 		$control_ops = array(
-			'id_base' => 'am-social-widget',
+			'id_base' => 'as-social-widget',
 		);
 		// load widget
 		parent::__construct(self::slug, __(self::name, self::locale), $widget_ops, $control_ops );
@@ -92,7 +92,7 @@ class AM_Social_Widget extends WP_Widget {
 	        echo $args['before_title'] . $title . $args['after_title'];
         }
 
-		echo '<p class="am-social-profiles-wrap">';
+		echo '<p class="as-social-profiles-wrap">';
 		$social_profiles = array(
 			'facebook' => 'Facebook',
 			'twitter' => 'Twitter',
@@ -106,7 +106,7 @@ class AM_Social_Widget extends WP_Widget {
 			$url = esc_url( $instance[$social] );
 			$target = $link_target ? 'target="_blank"' : '';
 			if( $url ) {
-				echo '<a href="' . $url . '" ' . $target . '>' . $this->am_get_icon_svg($social) . '<span class="sr-only screen-reader-text">' . $title . '</span></a> ';
+				echo '<a href="' . $url . '" ' . $target . '>' . $this->get_icon_svg($social) . '<span class="sr-only screen-reader-text">' . $title . '</span></a> ';
 			}
 		}
 		echo '</p>';
@@ -169,7 +169,7 @@ class AM_Social_Widget extends WP_Widget {
 		);
 		$link_target = isset( $instance['link_target'] ) ? (bool) $instance['link_target'] : false;
 		?>
-		<div class="am-social-widget-form-controls">
+		<div class="as-social-widget-form-controls">
 			<!-- widget title -->
 			<p>
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>">
@@ -219,15 +219,15 @@ class AM_Social_Widget extends WP_Widget {
 	 *
 	 * @return null|string icon or null if wrong name is passed
 	 */
-	public function am_get_icon_svg( $icon, $size = 24 ) {
-		return AM_SVG_Icons::get_svg( $icon, $size );
+	public function get_icon_svg( $icon, $size = 24 ) {
+		return AS_SVG_Icons::get_svg( $icon, $size );
 	}
 
 	/**
 	 * Load plugin styles for frontend.
 	 */
-	public function am_enqueue_scripts() {
-	    wp_enqueue_style( 'am-social-widget-styles', plugin_dir_url( __FILE__ ) . 'assets/css/style.min.css' );
+	public function enqueue_scripts() {
+	    wp_enqueue_style( self::slug . '-styles', plugin_dir_url( __FILE__ ) . 'assets/css/style.min.css' );
     }
 }
 
@@ -237,7 +237,7 @@ class AM_Social_Widget extends WP_Widget {
  * @since 1.0.1
  */
 add_action( 'widgets_init', function () {
-	register_widget('AM_Social_Widget' );
+	register_widget('AS_Social_Widget' );
 } );
 
 /**
