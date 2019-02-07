@@ -1,7 +1,7 @@
 # Widget Screenshots
-![Widget Admin View](https://raw.githubusercontent.com/talentedaamer/as-social-widget/assets/images/screenshot-1.png)
+![Widget Admin View](https://raw.githubusercontent.com/talentedaamer/as-social-widget/master/assets/images/screenshot-1.png)
 
-![Widget Frontend View](https://raw.githubusercontent.com/talentedaamer/as-social-widget/assets/images/screenshot-2.png)
+![Widget Frontend View](https://raw.githubusercontent.com/talentedaamer/as-social-widget/master/assets/images/screenshot-2.png)
 
 
 # AS Social Widget
