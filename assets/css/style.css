@@ -1,15 +1,15 @@
-.as-social-profiles-wrap {
+.am-social-profiles-wrap {
     overflow: hidden;
     clear: both;
 }
-.as-social-profiles-wrap > a {
+.am-social-profiles-wrap > a {
     display: inline-block;
     float: left;
 }
-.as-social-profiles-wrap > a:not(:last-child) {
+.am-social-profiles-wrap > a:not(:last-child) {
     margin-right: 10px;
 }
-.as-social-profiles-wrap > a > svg {
+.am-social-profiles-wrap > a > svg {
     display: block;
     width: 32px;
     height: 32px;
@@ -20,7 +20,7 @@
     -o-transform: translateZ(0);
     transform: translateZ(0);
 }
-.as-social-profiles-wrap > a > span.screen-reader-text {
+.am-social-profiles-wrap > a > span.screen-reader-text {
     border: 0;
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
