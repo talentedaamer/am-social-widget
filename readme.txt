@@ -1,5 +1,5 @@
 === AM Social Widget ===
-Contributors:
+Contributors: wpthemecraft
 Tags: social, sharing, widget, profiles, social media, icons, buttons, links
 Requires at least: 5.0.3
 Tested up to: 5.0.3
